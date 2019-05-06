@@ -1,0 +1,23 @@
+#include <FastLED.h>
+
+#define LED        256  
+#define DATA         6  
+#define BRIGHTNESS  255
+
+CRGB leds[LED];
+
+void setup() {
+  Serial.begin(1000000);
+  FastLED.addLeds<NEOPIXEL, DATA>(leds, LED);
+  FastLED.setBrightness(BRIGHTNESS);
+  
+}
+int serialGlediator () {
+  while (!Serial.available()) {}
+  return Serial.read();
+}
+void loop() {
+  while (serialGlediator () != 1) {}
+  Serial.readBytes((char*)leds, LED*3);
+  FastLED.show();
+}
